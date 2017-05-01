@@ -1,0 +1,1 @@
+find . -type f -mtime +90 |xargs tar -cvf ./`date '+%d%m%Y'_archive.tar`
