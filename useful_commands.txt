@@ -6,3 +6,7 @@ find . -type f -mtime +90 |xargs tar -cvf ./`date '+%d%m%Y'_archive.tar` #To arc
 
 if [[ "$(find . -type f \( -iname \*.log -o -iname \*.xml \))" !=  "" ]]; then find . -type f \( -iname \*.log -o -iname \*.xml \) -mtime 0 -print |tar -cvf ./Archive/test_filesFrom.tar.gz --files-from -; fi || exit 8
 
+#Get modified file time in WIN
+for %%a in (test.txt) do set FileDate=%%~ta
+@ECHO OFF
+echo =%FileDate%
