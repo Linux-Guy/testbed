@@ -10,3 +10,13 @@ if [[ "$(find . -type f \( -iname \*.log -o -iname \*.xml \))" !=  "" ]]; then f
 for %%a in (test.txt) do set FileDate=%%~ta
 @ECHO OFF
 echo =%FileDate%
+
+VirtualBox vdi resize
+Clone the vdi to another 
+  VBoxManage clonehd  TestBed.vdi testbed1.vdi
+resize the cloned vdi
+  VBoxManage modifyhd testbed1.vdi --resize 20000
+verify with this command
+  VBoxManage showhdinfo testbed1.vdi
+use new vdi in storage in virtualBox
+
