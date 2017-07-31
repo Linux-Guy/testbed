@@ -1,8 +1,5 @@
 find . -type f -mtime +90 |xargs tar -cvf ./`date '+%d%m%Y'_archive.tar` #To archive files 
-#Shopware Plugin cli installation
-#InstallationPath/bin/console sw:plugin:refresh
-#InstallationPath/bin/console sw:plugin:install SwagBackendOrder --activate
-# this is an alternative to xargs to compress specified Files
+
 
 if [[ "$(find . -type f \( -iname \*.log -o -iname \*.xml \))" !=  "" ]]; then find . -type f \( -iname \*.log -o -iname \*.xml \) -mtime 0 -print |tar -cvf ./Archive/test_filesFrom.tar.gz --files-from -; fi || exit 8
 
