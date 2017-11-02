@@ -1,0 +1,58 @@
+
+Public Sub DGVRefresh() 'The Sub is used to Fill the Grid View With Students Table
+ Conn = New SqlConnection(My.Settings.GibbConnectionString) 'Getting the Connection string From the Project Setting
+Conn.Open()
+        Dim LernerSelectqry As String
+        'LernerSelectqry = "SELECT  [LernenderID],[Name],[Vorname],[Strasse],[PLZ],[Ort],[Tel],[Mobil],[Email],[GeburtsDatum],[IDPerson] FROM [Lernender]"
+        LernerSelectqry = "SELECT  * FROM [Lernender]"
+
+        DASelectLernender = New SqlDataAdapter(LernerSelectqry, Conn)
+        dsLernender = New DataSet()
+        DASelectLernender.Fill(dsLernender, "Lernender")
+
+
+        With DataGridView1
+            .DataSource = dsLernender
+            .DataMember = "Lernender"
+            .Columns(0).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader
+            .Columns("LernenderID").ReadOnly = True
+            .Columns("LehrbetriebID").ReadOnly = True
+            .Columns("LernenderID").DefaultCellStyle.BackColor = GridReadonlyCellColor
+            .Columns("IDPerson").Visible = False
+            .Columns("Bild").Visible = False
+          
+            '.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader
+
+
+
+        End With
+
+    End Sub
+    
+    Private Sub cmdNeuKlasseErfassen_Click(sender As Object, e As EventArgs) Handles cmdNeuKlasseErfassen.Click
+        Dim strKlassenBezeichnung As String
+        strKlassenBezeichnung = cmbBeruf.Text & cmbStartJahr.Text & cmbKlassenteil.Text
+
+        Try
+            QryCmd = Nothing
+            Dim strInsertKlasse = "INSERT INTO [dbo].[tbl_Klassenbezeichnung] ([BezeichnungID], [Klassenbezeichnung],[BerufID]) VALUES (@ID, @Klassenbezeichnung,@BerufID)"
+
+            Using QryCmd As New SqlCommand
+                With QryCmd
+                    .Connection = Conn
+                    .CommandType = CommandType.Text
+                    .CommandText = strInsertKlasse
+                    .Parameters.AddWithValue("@ID", DBNull.Value)
+                    .Parameters.AddWithValue("@Klassenbezeichnung", strKlassenBezeichnung)
+                    .Parameters.AddWithValue("@BerufID", strBbezeiBrufID)
+                End With
+                Dim intInsert As Integer = QryCmd.ExecuteNonQuery()
+                If intInsert > 0 Then
+                    MessageBox.Show("Neu Klassenbezeichnung ist gespeichert", "Neu Beruf", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    LoaDGVKlassenbezeichnung()
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
