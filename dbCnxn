@@ -56,3 +56,37 @@ Conn.Open()
             MessageBox.Show(ex.Message)
         End Try
     End Sub
+    
+    ///
+     Private Sub BerufInsert()
+        Dim strBerufInsertQry = "INSERT INTO [dbo].[Beruf] ([BerufID], [Berufsbezeichnung], [Abkürzung], [AnzahlLehrjahre], [AnzahlSemester])" & _
+                                "VALUES (@BerufID, @Berufsbezeichnung, @Abkürzung, @AnzahlLehrjahre, @AnzahlSemester)"
+
+        Try
+            Using cmdBerufInsert As New SqlCommand
+
+                With cmdBerufInsert
+                    .Connection = Conn
+                    .CommandType = CommandType.Text
+                    .CommandText = strBerufInsertQry
+                    .Parameters.AddWithValue("@BerufID", txtBerufId.Text)
+                    .Parameters.AddWithValue("@Berufsbezeichnung", txtBerufBezeichnung.Text)
+                    .Parameters.AddWithValue("@Abkürzung", txtBerufAbkürzung.Text)
+                    .Parameters.AddWithValue("@AnzahlLehrjahre", txtAnzLehrjahr.Text)
+                    .Parameters.AddWithValue("@AnzahlSemester", txtAnzSemester.Text)
+
+                End With
+                Dim intInsert As Integer = cmdBerufInsert.ExecuteNonQuery()
+                If intInsert > 0 Then
+                    MessageBox.Show("Neu Beruf ist gespeichert", "Neu Beruf", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    DGVLoad()
+                    btnBerufSpeichern.Enabled = False
+                    btnNeuBeruf.Enabled = True
+
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
