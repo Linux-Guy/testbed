@@ -1,0 +1,25 @@
+namespace MyConsoleAPP
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            if (HelpRequired(args[0]))
+            {
+                DisplayHelp();
+            }
+            Console.ReadKey();     
+        }
+
+        private static void DisplayHelp()
+        {
+            Console.WriteLine("This is Help");
+        }
+
+        private static bool HelpRequired(string param)
+        {
+            
+            return param == "-h" || param == "--help" || param == "/?";
+        }
+    }
+}
