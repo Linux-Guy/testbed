@@ -16,4 +16,6 @@ resize the cloned vdi
 verify with this command
   VBoxManage showhdinfo testbed1.vdi
 use new vdi in storage in virtualBox
+//Import an existing, unversioned code project into Bitbucket Server
+https://confluence.atlassian.com/bitbucketserver/importing-code-from-an-existing-project-776640909.html
 
